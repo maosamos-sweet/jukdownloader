@@ -49,10 +49,9 @@
     },
 
     "mac": {
-      "target": "dmg",
-      "icon": "assets/icon.ico",
-      "category": "public.app-category.utilities"
-    },
+  "target": "dmg",
+  "category": "public.app-category.utilities"
+},
 
     "nsis": {
       "oneClick": false,
