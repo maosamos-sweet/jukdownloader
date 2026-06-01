@@ -1,0 +1,82 @@
+{
+  "name": "juk-downloader",
+  "version": "1.0.0",
+  "description": "Fast Video & MP3 Downloader",
+  "author": "Anonymous Shop",
+  "main": "src/main.js",
+
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build:win": "electron-builder --win --x64",
+    "build:mac": "electron-builder --mac --x64"
+  },
+
+  "build": {
+    "appId": "com.juk.downloader",
+    "productName": "Juk Downloader",
+    "publish": [
+  {
+    "provider": "github",
+    "owner": "maosamos-sweet",
+    "repo": "jukdownloader"
+  }
+],
+
+    "asar": true,
+
+    "directories": {
+      "output": "dist"
+    },
+
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+
+    "extraResources": [
+      {
+        "from": "bin",
+        "to": "bin",
+        "filter": ["**/*"]
+      }
+    ],
+
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.ico",
+      "category": "public.app-category.utilities"
+    },
+
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Juk Downloader",
+      "runAfterFinish": true,
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico"
+    }
+  },
+
+  "dependencies": {
+    "axios": "^1.6.0",
+    "electron-store": "^8.1.0",
+    "electron-updater": "^6.3.9",
+    "node-fetch": "^2.7.0",
+    "systeminformation": "^5.21.0"
+  },
+
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3"
+  }
+}

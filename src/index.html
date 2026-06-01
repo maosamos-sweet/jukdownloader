@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juk Downloader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Title Bar -->
+  <div class="titlebar">
+    <div class="titlebar-left">
+      <div class="app-logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="url(#logoGrad)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00f5c4"/>
+              <stop offset="100%" stop-color="#5b6ef5"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="app-title">JUK</span>
+      <span class="app-subtitle">DOWNLOADER</span>
+    </div>
+    <div class="titlebar-drag"></div>
+    <div class="titlebar-right">
+      <div class="sys-badge" id="sysInfo">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <span id="cpuInfo">Loading...</span>
+      </div>
+      <button class="win-btn" id="btnMin" title="Minimize">─</button>
+      <button class="win-btn" id="btnMax" title="Maximize">□</button>
+      <button class="win-btn close" id="btnClose" title="Close">✕</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-layout">
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="download">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Download</span>
+        </button>
+        <button class="nav-item" data-tab="queue">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span>Queue</span>
+          <span class="badge" id="queueBadge" style="display:none">0</span>
+        </button>
+        <button class="nav-item" data-tab="history">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>History</span>
+        </button>
+        <button class="nav-item" data-tab="settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-platforms">
+        <div class="platforms-label">SUPPORTED</div>
+        <div class="platform-chips">
+          <span class="chip">YouTube</span>
+          <span class="chip">TikTok</span>
+          <span class="chip">Facebook</span>
+          <span class="chip">Instagram</span>
+          <span class="chip">Twitter/X</span>
+          <span class="chip">Vimeo</span>
+          <span class="chip">Twitch</span>
+          <span class="chip">Reddit</span>
+          <span class="chip">1000+ more</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content Area -->
+    <main class="content">
+
+      <!-- ── DOWNLOAD TAB ── -->
+      <div class="tab-panel active" id="tab-download">
+
+        <!-- URL Input Section -->
+        <section class="url-section">
+          <div class="section-header">
+            <h2>Paste Video Link</h2>
+            <p>Supports YouTube, TikTok, Facebook, Instagram, Twitter, Vimeo, Twitch & 1000+ sites</p>
+          </div>
+          <div class="url-input-row">
+            <div class="url-input-wrapper">
+              <svg class="url-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <input type="text" id="urlInput" placeholder="https://www.youtube.com/watch?v=... or any video URL" autocomplete="off" />
+              <button class="btn-clear" id="btnClear" title="Clear">✕</button>
+            </div>
+            <button class="btn-fetch" id="btnFetch">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span>Fetch</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Video Preview -->
+        <div id="previewSection" style="display:none">
+          <section class="preview-card">
+            <div class="preview-thumb-wrap">
+              <img id="prevThumb" src="" alt="thumbnail" />
+              <div class="thumb-overlay">
+                <div class="platform-badge" id="prevPlatform">YouTube</div>
+                <div class="duration-badge" id="prevDuration"></div>
+              </div>
+            </div>
+            <div class="preview-info">
+              <h3 id="prevTitle"></h3>
+              <div class="preview-meta">
+                <span id="prevUploader"></span>
+                <span class="sep">·</span>
+                <span id="prevViews"></span>
+              </div>
+              <div class="format-selector">
+                <div class="format-type-row">
+                  <button class="fmt-type active" data-fmt="video">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    Video (MP4)
+                  </button>
+                  <button class="fmt-type" data-fmt="audio">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    Audio (MP3)
+                  </button>
+                </div>
+                <div class="quality-grid" id="qualityGrid"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Download Controls -->
+          <section class="download-controls">
+            <div class="folder-row">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              <span id="folderDisplay">~/Downloads</span>
+              <button class="btn-ghost" id="btnChooseFolder">Change</button>
+            </div>
+            <button class="btn-download" id="btnDownload">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download Now
+            </button>
+          </section>
+
+          <!-- Progress -->
+          <div class="progress-section" id="progressSection" style="display:none">
+            <div class="progress-header">
+              <span class="progress-label" id="progressLabel">Downloading...</span>
+              <span class="progress-pct" id="progressPct">0%</span>
+            </div>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div class="progress-footer">
+              <span id="progressSpeed"></span>
+              <span id="progressEta"></span>
+              <span id="progressSize"></span>
+              <button class="btn-cancel" id="btnCancel">Cancel</button>
+            </div>
+          </div>
+
+          <!-- Done -->
+          <div class="done-section" id="doneSection" style="display:none">
+            <div class="done-icon">✓</div>
+            <div class="done-text">
+              <strong>Download Complete!</strong>
+              <span id="doneFile"></span>
+            </div>
+            <button class="btn-ghost" id="btnOpenFolder">Open Folder</button>
+            <button class="btn-ghost" id="btnDownloadAnother">Download Another</button>
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div class="error-box" id="errorBox" style="display:none">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff4d6d" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          <span id="errorMsg"></span>
+        </div>
+
+        <!-- Loader -->
+        <div class="fetch-loader" id="fetchLoader" style="display:none">
+          <div class="loader-ring"></div>
+          <span>Fetching video info...</span>
+        </div>
+
+      </div>
+
+      <!-- ── QUEUE TAB ── -->
+      <div class="tab-panel" id="tab-queue">
+        <div class="section-header">
+          <h2>Download Queue</h2>
+          <p>Active and pending downloads</p>
+        </div>
+        <div id="queueList" class="queue-list">
+          <div class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+            <p>No active downloads</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── HISTORY TAB ── -->
+      <div class="tab-panel" id="tab-history">
+        <div class="section-header">
+          <h2>Download History</h2>
+          <p>Previously downloaded files</p>
+        </div>
+        <div class="history-actions">
+          <button class="btn-ghost danger" id="btnClearHistory">Clear History</button>
+        </div>
+        <div id="historyList" class="history-list">
+          <div class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <p>No download history yet</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS TAB ── -->
+      <div class="tab-panel" id="tab-settings">
+        <div class="section-header">
+          <h2>Settings</h2>
+          <p>Customize your download preferences</p>
+        </div>
+        <div class="settings-grid">
+          <div class="settings-card">
+            <h4>Performance</h4>
+            <div class="setting-row">
+              <label>Concurrent Download Threads</label>
+              <select id="setThreads">
+                <option value="auto">Auto (Recommended)</option>
+                <option value="1">1 Thread</option>
+                <option value="2">2 Threads</option>
+                <option value="4">4 Threads</option>
+                <option value="8">8 Threads</option>
+                <option value="16">16 Threads</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <label>Speed Limit</label>
+              <select id="setSpeedLimit">
+                <option value="0">No Limit</option>
+                <option value="1M">1 MB/s</option>
+                <option value="5M">5 MB/s</option>
+                <option value="10M">10 MB/s</option>
+              </select>
+            </div>
+          </div>
+          <div class="settings-card">
+            <h4>Output</h4>
+            <div class="setting-row">
+              <label>Default Download Folder</label>
+              <div class="setting-folder-row">
+                <span id="settingsFolderDisplay">~/Downloads</span>
+                <button class="btn-ghost" id="btnSettingsFolder">Change</button>
+              </div>
+            </div>
+            <div class="setting-row">
+              <label>Default Format</label>
+              <select id="setDefaultFormat">
+                <option value="video">Video (MP4)</option>
+                <option value="audio">Audio (MP3)</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <label>Default Quality</label>
+              <select id="setDefaultQuality">
+                <option value="1080p">1080p (Full HD)</option>
+                <option value="720p">720p (HD)</option>
+                <option value="480p">480p</option>
+                <option value="360p">360p</option>
+              </select>
+            </div>
+          </div>
+          <div class="settings-card">
+            <h4>System Info</h4>
+            <div class="sys-info-grid" id="sysInfoGrid">Loading...</div>
+          </div>
+          <div class="settings-card">
+            <h4>About</h4>
+            <div class="about-info">
+              <div class="about-logo">JUK</div>
+              <p id="appVersion">Loading...</p>
+              <p>Powered by yt-dlp + FFmpeg</p>
+              <p class="muted">Supports 1000+ platforms</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
